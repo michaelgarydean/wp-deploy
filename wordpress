@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# create error message if arguments weren't passed ini
+# expects -s sitename
+
+usage() { echo "Usage: $0 [-s <string>]" 1>&2; exit 1; }
+
+# read arguments
+while getopts ":s:" option; do
+    case "${option}" in
+        s)
+            s=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ]; then
+    usage
+fi
+
+# Set up virtual host
+./makevhost -s ${s}
+
+# Install database, then use password to install wordpress
+./createdb -s ${s} | xargs ./installwp -s ${s} -p

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# create error message if arguments weren't passed in
+usage() { echo "Usage: $0 [-s <string>]" 1>&2; exit 1; }
+
+# read arguments
+while getopts ":s:" option; do
+    case "${option}" in
+        s)
+            s=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ]; then
+    usage
+fi
+
+# set up variables
+SITENAME=${s}
+DOCROOT=/var/www/${s}/
+DOCDIR=${DOCROOT}docs/
+LOGDIR=${DOCROOT}logs/
+SERVER="wpdev0.koumbit.net"
+
+APACHEDIR="/etc/apache2/sites-available/";
+
+# Create configuration file for new domain
+sudo tee -a ${APACHEDIR}${SITENAME}.${SERVER}.conf > /dev/null <<EOL
+<VirtualHost *:80>
+
+        ServerName ${SITENAME}.wpdev0.koumbit.net
+
+        DocumentRoot /var/www/${SITENAME}/docs/
+
+        ErrorLog /var/www/${SITENAME}/logs/error.log
+        CustomLog /var/www/${SITENAME}/logs/access.log combined
+
+</VirtualHost>
+EOL
+
+# Make directories for site
+sudo mkdir -p ${DOCDIR}
+sudo mkdir ${LOGDIR}
+
+# Properly set up users and groups
+sudo chown -R $USER:kt-ct ${DOCROOT}
+
+# Enable vhost and restart apache
+sudo a2ensite ${SITENAME}.${SERVER}.conf
+sudo service apache2 reload

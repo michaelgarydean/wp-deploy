@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Create error message if arguments weren't passed ini
+# Expects -s sitename, -p password
+
+usage() { echo "Usage: $0 [-s <string>] [-p <string>]" 1>&2; exit 1; }
+
+# Read arguments
+while getopts ":s:p:" option; do
+    case "${option}" in
+        s)
+            s=${OPTARG}
+            ;;
+	p) 
+            p=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ] || [ -z "${p}" ]; then
+    usage
+fi
+
+# Set up variables
+SITENAME=${s}
+PASSWORD=${p}
+
+# See https://codex.wordpress.org/Hardening_WordPress#Security_through_obscurity
+PREFIX=`pwgen -1 7`
+LOCALE="fr_CA"
+
+# Navigate to parent directory
+cd /var/www/${SITENAME}/docs/
+
+# Download wordpress
+wp core download
+wp core config --dbname=${SITENAME} --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX} --locale=${LOCALE}
+wp core install --url=${SITENAME}.wpdev0.koumbit.net --title=${SITENAME} --admin_user=$USER --admin_password=${PASSWORD} --admin_email='mike@koumbit.org' --skip-email
+wp core language install fr_CA --activate
+
+# Make sure wp-content is writable by Apache user
+sudo chown www-data:kt-ct -R wp-content/
+
+# As well as other users in the kt-ct group
+sudo chmod g+rwx -R wp-content/
+
+
+echo "User name is: $USER"
+echo "User name is: ${PASSWORD}"
