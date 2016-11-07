@@ -38,7 +38,7 @@ cd /var/www/${SITENAME}/docs/
 
 # Download wordpress
 wp core download
-wp core config --dbname=${SITENAME} --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX} --locale=${LOCALE}
+wp core config --dbname=${SITENAME} --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX}_ --locale=${LOCALE}
 wp core install --url=${SITENAME}.wpdev0.koumbit.net --title=${SITENAME} --admin_user=$USER --admin_password=${PASSWORD} --admin_email='mike@koumbit.org' --skip-email
 wp core language install fr_CA --activate
 
@@ -50,4 +50,4 @@ sudo chmod g+rwx -R wp-content/
 
 
 echo "User name is: $USER"
-echo "User name is: ${PASSWORD}"
+echo "Password is: ${PASSWORD}"
