@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# create error message if arguments weren't passed ini
+# expects -s sitename
+
+usage() { echo "Usage: $0 [-s <string>]" 1>&2; exit 1; }
+
+# read arguments
+while getopts ":s:" option; do
+    case "${option}" in
+        s)
+            s=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ]; then
+    usage
+fi
+
+# Set up variables
+SITENAME=${s}
+
+# Navigate to parent directory
+cd /var/www/${SITENAME}/docs/
+
+# Make sure wp-content is writable by Apache user
+sudo chown www-data:kt-ct -R wp-content/
+
+# As well as other users in the kt-ct group
+sudo chmod g+rwx -R wp-content/
+
+echo "Permissions updated."
