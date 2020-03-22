@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# create error message if arguments weren't passed ini
+# Expects -o oldsiteurl, -n newsiteurl
+
+usage() { echo "Usage: $0 [-o <string>] [-n <string>]" 1>&2; exit 1; }
+
+# Read arguments
+while getopts ":o:n:" option; do
+    case "${option}" in
+        s)  
+            o=${OPTARG}
+            ;;
+        p)  
+            n=${OPTARG}
+            ;;
+        *)  
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${o}" ] || [ -z "${n}" ]; then
+    usage
+fi
+
+# Set up variables
+OLDURL=${o}
+NEWURL=${n}
+
+# Update the options with the new URL
+wp option update home ${NEWURL} 
+wp option update siteurl ${NEWURL}
+
+# Replace all URLs in database
+wp search-replace ${OLDURL} ${NEWURL}
+
+echo "Site URL updated."

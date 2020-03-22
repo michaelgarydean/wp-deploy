@@ -28,10 +28,12 @@ fi
 # Set up variables
 SITENAME=${s}
 PASSWORD=${p}
+SERVER="mike.koumbit.org"
 
 # See https://codex.wordpress.org/Hardening_WordPress#Security_through_obscurity
 PREFIX=`pwgen -1 7`
-LOCALE="fr_CA"
+LOCALE="en_CA"
+EMAIL="contact@michaeldean.ca"
 
 # Navigate to parent directory
 cd /var/www/${SITENAME}/docs/
@@ -39,11 +41,11 @@ cd /var/www/${SITENAME}/docs/
 # Download wordpress
 wp core download
 wp core config --dbname=${SITENAME} --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX}_ --locale=${LOCALE}
-wp core install --url=${SITENAME}.wpdev0.koumbit.net --title=${SITENAME} --admin_user=$USER --admin_password=${PASSWORD} --admin_email='mike@koumbit.org' --skip-email
-wp core language install fr_CA --activate
+wp core install --url=${SITENAME}.${SERVER} --title=${SITENAME} --admin_user=$USER --admin_password=${PASSWORD} --admin_email=${EMAIL} --skip-email
+wp core language install ${LOCALE} --activate
 
 # Make sure wp-content is writable by Apache user
-sudo chown www-data:kt-ct -R wp-content/
+sudo chown www-data:www-pub -R wp-content/
 
 # As well as other users in the kt-ct group
 sudo chmod g+rwx -R wp-content/

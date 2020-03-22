@@ -27,3 +27,6 @@ fi
 
 # Install database, then use password to install wordpress
 ./createdb -s ${s} | xargs ./installwp -s ${s} -p
+
+# Set-up the permissions structure
+./wppermissions -s ${s}

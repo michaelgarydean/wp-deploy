@@ -29,7 +29,7 @@ SITENAME=${s}
 cd /var/www/${SITENAME}/docs/
 
 # Make sure wp-content is writable by Apache user
-sudo chown www-data:kt-ct -R wp-content/
+sudo chown www-data:www-pub -R wp-content/
 
 # As well as other users in the kt-ct group
 sudo chmod g+rwx -R wp-content/

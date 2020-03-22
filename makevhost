@@ -25,7 +25,7 @@ SITENAME=${s}
 DOCROOT=/var/www/${s}/
 DOCDIR=${DOCROOT}docs/
 LOGDIR=${DOCROOT}logs/
-SERVER="wpdev0.koumbit.net"
+SERVER="mike.koumbit.org"
 
 APACHEDIR="/etc/apache2/sites-available/";
 
@@ -33,7 +33,7 @@ APACHEDIR="/etc/apache2/sites-available/";
 sudo tee -a ${APACHEDIR}${SITENAME}.${SERVER}.conf > /dev/null <<EOL
 <VirtualHost *:80>
 
-        ServerName ${SITENAME}.wpdev0.koumbit.net
+        ServerName ${SITENAME}.${SERVER}
 
         DocumentRoot /var/www/${SITENAME}/docs/
 
@@ -48,7 +48,7 @@ sudo mkdir -p ${DOCDIR}
 sudo mkdir ${LOGDIR}
 
 # Properly set up users and groups
-sudo chown -R $USER:kt-ct ${DOCROOT}
+sudo chown -R $USER:www-pub ${DOCROOT}
 
 # Enable vhost and restart apache
 sudo a2ensite ${SITENAME}.${SERVER}.conf
