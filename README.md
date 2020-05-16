@@ -1,8 +1,8 @@
 # wp-deploy
 
 ## Names of files and their uses
-  - wordpress - do a complete install of a new Wordpress site, including virtual host, database and Wordpress configuration
-  - makevhost - set up the Apache virtual host and create the site directories
+  - wordpress - Do a complete install of a new Wordpress site, including virtual host, database and Wordpress configuration
+  - makevhost - Set up the Apache virtual host and create the site directories
   - createdb - Create a new user and database in MySQL
   - installwp - Install the Wordpress files and configure it with the database
   - wppermissions - Set up all the proper file permissions for the site
