@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# Completely remove a Wordpress site from the server.
+#
+# @author   Michael Gary Dean
+# @contact  <contact@michaeldean.ca>
+# @web      michaeldean.ca
+# @github   github.com/mykedean 
+
+# create error message if arguments weren't passed ini
+# expects -s sitename
+
+usage() { echo "Usage: $0 [-s <string>]" 1>&2; exit 1; }
+
+# read arguments
+while getopts ":s:" option; do
+    case "${option}" in
+        s)
+            s=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ]; then
+    usage
+fi
+
+# Set up variables
+SITENAME=${s}
+PASSWORD=${p}
+SERVER="michaeldean.ca"
+SERVERDB="michaeldean_ca"
+
+# Check to make sure we REALLY want to delete the site
+read -r -p "This will delete the site ${SITENAME}.${SERVER}. Are you sure you want to do this? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+
+    # disable vhost and restart apache
+    sudo a2dissite ${SITENAME}.${SERVER}.conf
+    sudo service apache2 reload
+
+    # Remove the directories for the site files as well as the virtual host
+    sudo rm /etc/apache2/sites-available/${SITENAME}.${SERVER}.conf
+    sudo rm -r /var/www/${SITENAME}.${SERVER}/
+
+    # drop user, database
+    mysql -uroot -e "DROP DATABASE ${SITENAME}_${SERVERDB};"
+    mysql -uroot -e "DROP USER ${SITENAME}@'localhost';"
+
+    # done
+    echo "$SITENAME.$SERVER deleted"
+else
+    exit 1
+fi

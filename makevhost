@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Set-up the Apache virtual host for a new Wordpress site
+# This script is called by the 'wordpress' script
+#
+# @author   Michael Gary Dean
+# @contact  <contact@michaeldean.ca>
+# @web      michaeldean.ca
+# @github   github.com/mykedean 
 
 # create error message if arguments weren't passed in
 usage() { echo "Usage: $0 [-s <string>]" 1>&2; exit 1; }
@@ -22,7 +30,8 @@ fi
 
 # set up variables
 SITENAME=${s}
-DOCROOT=/var/www/${s}/
+SERVER="michaeldean.ca"
+DOCROOT=/var/www/${s}.${SERVER}/
 DOCDIR=${DOCROOT}docs/
 LOGDIR=${DOCROOT}logs/
 SERVER="michaeldean.ca"

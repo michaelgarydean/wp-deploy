@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Run the Wordpress installation.
+# This script is called by the 'wordpress' script
+#
+# @author   Michael Gary Dean
+# @contact  <contact@michaeldean.ca>
+# @web      michaeldean.ca
+# @github   github.com/mykedean 
 
 # Create error message if arguments weren't passed ini
 # Expects -s sitename, -p password
@@ -29,6 +37,7 @@ fi
 SITENAME=${s}
 PASSWORD=${p}
 SERVER="michaeldean.ca"
+SERVERDB="michaeldean_ca"
 
 # See https://codex.wordpress.org/Hardening_WordPress#Security_through_obscurity
 PREFIX=`pwgen -1 7`
@@ -36,11 +45,13 @@ LOCALE="en_CA"
 EMAIL="contact@michaeldean.ca"
 
 # Navigate to parent directory
-cd /var/www/${SITENAME}/docs/
+cd /var/www/${SITENAME}.${SERVER}/docs/
+
+echo "Database name is: ${SITENAME}_${SERVERDB}"
 
 # Download wordpress
 wp core download
-wp core config --dbname=${SITENAME} --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX}_ --locale=${LOCALE}
+wp core config --dbname="${SITENAME}_${SERVERDB}" --dbuser=${SITENAME} --dbpass=${PASSWORD} --dbprefix=${PREFIX}_ --locale=${LOCALE}
 wp core install --url=${SITENAME}.${SERVER} --title=${SITENAME} --admin_user=$USER --admin_password=${PASSWORD} --admin_email=${EMAIL} --skip-email
 wp core language install ${LOCALE} --activate
 

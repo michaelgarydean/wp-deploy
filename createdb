@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Create a database for a Wordpress site.
+# This script is called by the 'wordpress' script
+#
+# @author	Michael Gary Dean
+# @contact	<contact@michaeldean.ca>
+# @web		michaeldean.ca
+# @github	github.com/mykedean	
 
 # create error message if arguments weren't passed ini
 # expects -s sitename
@@ -24,12 +32,13 @@ fi
 
 # Set up variables
 SITENAME=${s}
-PASSWORD=`pwgen -1 7`
+SERVERDB="michaeldean_ca"
+PASSWORD=`pwgen -1 16`
 
 # Create user, create database and grant privileges
 mysql -uroot -e "CREATE USER ${SITENAME}@'localhost' IDENTIFIED BY '${PASSWORD}';"
-mysql -uroot -e "CREATE DATABASE ${SITENAME};"
-mysql -uroot -e "GRANT ALL PRIVILEGES ON ${SITENAME}.* TO ${SITENAME}@'localhost' IDENTIFIED BY '${PASSWORD}';"
+mysql -uroot -e "CREATE DATABASE ${SITENAME}_${SERVERDB};"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON ${SITENAME}_${SERVERDB}.* TO ${SITENAME}@'localhost' IDENTIFIED BY '${PASSWORD}';"
 
 # Output the generated password
 echo ${PASSWORD}

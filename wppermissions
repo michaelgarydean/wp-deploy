@@ -24,9 +24,10 @@ fi
 
 # Set up variables
 SITENAME=${s}
+SERVER="michaeldean.ca"
 
 # Navigate to parent directory
-cd /var/www/${SITENAME}/docs/
+cd /var/www/${SITENAME}.${SERVER}/docs/
 
 # Make sure wp-content is writable by Apache user
 sudo chown www-data:www-pub -R wp-content/

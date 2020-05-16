@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# Set-up a Wordpress site, including the database and virtual host
+#
+# @author   Michael Gary Dean
+# @contact  <contact@michaeldean.ca>
+# @web      michaeldean.ca
+# @github   github.com/mykedean 
 
 # create error message if arguments weren't passed ini
 # expects -s sitename
