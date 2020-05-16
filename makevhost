@@ -25,7 +25,7 @@ SITENAME=${s}
 DOCROOT=/var/www/${s}/
 DOCDIR=${DOCROOT}docs/
 LOGDIR=${DOCROOT}logs/
-SERVER="mike.koumbit.org"
+SERVER="michaeldean.ca"
 
 APACHEDIR="/etc/apache2/sites-available/";
 

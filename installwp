@@ -28,7 +28,7 @@ fi
 # Set up variables
 SITENAME=${s}
 PASSWORD=${p}
-SERVER="mike.koumbit.org"
+SERVER="michaeldean.ca"
 
 # See https://codex.wordpress.org/Hardening_WordPress#Security_through_obscurity
 PREFIX=`pwgen -1 7`
