@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#https://stackoverflow.com/questions/18352682/correct-file-permissions-for-wordpress
+
 # create error message if arguments weren't passed ini
 # expects -s sitename
 
@@ -29,10 +31,10 @@ SERVER="michaeldean.ca"
 # Navigate to parent directory
 cd /var/www/${SITENAME}.${SERVER}/docs/
 
-# Make sure wp-content is writable by Apache user
-sudo chown www-data:www-pub -R wp-content/
+# Make sure wp-content is writable by Apache user....otherwise we can't do automatic updates.
+sudo chown www-data:www-pub -R ./
 
-# As well as other users in the kt-ct group
-sudo chmod g+rwx -R wp-content/
+# As well as other users in the www-pub group so we can actually edit the files as our user.
+sudo chmod g+rwx -R ./
 
 echo "Permissions updated."

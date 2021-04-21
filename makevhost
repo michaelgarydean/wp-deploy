@@ -44,10 +44,10 @@ sudo tee -a ${APACHEDIR}${SITENAME}.${SERVER}.conf > /dev/null <<EOL
 
         ServerName ${SITENAME}.${SERVER}
 
-        DocumentRoot /var/www/${SITENAME}/docs/
+        DocumentRoot ${DOCDIR}
 
-        ErrorLog /var/www/${SITENAME}/logs/error.log
-        CustomLog /var/www/${SITENAME}/logs/access.log combined
+        ErrorLog ${LOGDIR}error.log
+        CustomLog ${LOGDIR}access.log combined
 
 </VirtualHost>
 EOL
