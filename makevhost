@@ -49,6 +49,14 @@ sudo tee -a ${APACHEDIR}${SITENAME}.${SERVER}.conf > /dev/null <<EOL
         ErrorLog ${LOGDIR}error.log
         CustomLog ${LOGDIR}access.log combined
 
+
+
+        <Directory ${DOCDIR}>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+		Require all granted
+        </Directory>
+
 </VirtualHost>
 EOL
 
